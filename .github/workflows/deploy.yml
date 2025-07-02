@@ -1,0 +1,28 @@
+# .github/workflows/deploy.yml
+
+name: Deploy to Production on PR
+
+on: [pull_request]
+
+jobs:
+  deploy:
+    name: Deploy Job
+    runs-on: ubuntu-latest
+    
+    # This is the most important line.
+    # It tells GitHub that this job needs secrets from the "production" environment.
+    environment: production
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Simulate Deployment
+        run: |
+          echo "Attempting to deploy..."
+          # In a legitimate run from the main repo, this would use the secret.
+          # In our test from a fork, this should print an empty value.
+          echo "The secret is: ${{ secrets.SUPER_SECRET_KEY }}"
+          
+      - name: Deployment Finished
+        run: echo "Deployment simulation complete."
