@@ -1,0 +1,14 @@
+name: My Special Deployment Test
+
+on: [push]
+
+jobs:
+  deploy_test:
+    name: Attempt to Deploy
+    runs-on: ubuntu-latest
+    
+    # This is the magic line that connects to our rule!
+    environment: First-Environment-FOR-USER05
+    
+    steps:
+      - run: echo "Trying to run a step in the protected environment."
